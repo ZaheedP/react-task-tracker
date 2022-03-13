@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import React from "react";
 import Header from "./components/Header";
@@ -6,6 +6,30 @@ import Tasks from "./components/Tasks";
 import AddTask from "./components/AddTask";
 
 function App() {
+  const makeAPICall = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:8080/swot/api/v1/syllabus/get-all",
+        {
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+        }
+      );
+      const data = await response.json();
+      console.log({ data });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    makeAPICall();
+  }, []);
+
   const [showAddTask, setShowAddTask] = useState(false);
 
   const [tasks, setTasks] = useState([
